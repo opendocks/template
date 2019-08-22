@@ -19,7 +19,16 @@ The empty structure contains necessary folder and files to start building site b
    3. DOCKER_HOST_IP (IP of host machine)
    4. PHP_IDE_CONFIG
    5. PHP_VERSION (Use any value from 7.3, 7.2, 7.1, 7.0, 5.6)
+
+- Update .env variables for Apache Service
+   1. APACHE_VIRTUAL_HOST 
    
+   If you are using [Docker Proxy Network](https://github.com/smurtazakazmi/dock.p), this will add reverse proxy automatically, though you have to manually add host entries in OS host file.
+   
+   If you need to add multiple host, provide comma separated values.
+   
+   For more details Check [Docker Proxy Network](https://github.com/smurtazakazmi/dock.p)
+      
 - Update .env variables for PHP Service
    1. Enable of disable required PHP extentions for PHP service
    2. Enable of disable required PHP extentions for Workspace service
