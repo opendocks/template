@@ -3,35 +3,37 @@
 The empty structure contains necessary folder and files to start building site using docker.
 
 ### How to use for project
-Clone this repository using command
+- Clone this repository using command
 ```bash
     git@github.com:smurtazakazmi/dock.s.git
 ```
 
-Clone dock.d repository within root of this repo using command
+- Clone dock.d repository within root of this repo using command
 ```bash
     git clone git@github.com:smurtazakazmi/dock.d.git
 ```
 
-Update general .env variables
+- Update general .env variables
    1. APP_BASE_DIR
    2. COMPOSE_PROJECT_NAME
    3. DOCKER_HOST_IP (IP of host machine)
    4. PHP_IDE_CONFIG
    5. PHP_VERSION (Use any value from 7.3, 7.2, 7.1, 7.0, 5.6)
    
-Update .env variables for PHP Service
+- Update .env variables for PHP Service
    1. Enable of disable required PHP extentions for PHP service
    2. Enable of disable required PHP extentions for Workspace service
 
-Update .env for MySQL Service
+- Update .env for MySQL Service
    1. MYSQL_VERSION
    2. MYSQL_DATABASE
    3. MYSQL_USER
    4. MYSQL_PASSWORD
    5. MYSQL_ROOT_PASSWORD 
 
-Copy your code in code folder within the root directory of repository
+- Copy your code in code folder within the root directory of repository
+
+- Create data directory in the root of this folder, it will server of MySQL data as docker volume
 
 
 
