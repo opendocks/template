@@ -1,4 +1,4 @@
-## Docker Site
+## Docker Site - Sample
 
 The empty structure contains necessary folder and files to start building site based on [Dock](https://github.com/smurtazakazmi/dock.d).
 
