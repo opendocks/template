@@ -1,11 +1,11 @@
-## Docker Site Boiler Plate
+## Docker Site
 
-The empty structure contains necessary folder and files to start building site using docker.
+The empty structure contains necessary folder and files to start building site based on [Dock](https://github.com/smurtazakazmi/dock.d).
 
 ### How to use for project
 - Clone this repository using command
 ```bash
-    git@github.com:smurtazakazmi/dock.s.git
+    git clone git@github.com:smurtazakazmi/dock.s.git
 ```
 
 - Clone dock.d repository within root of this repo using command
@@ -30,6 +30,8 @@ The empty structure contains necessary folder and files to start building site u
    3. MYSQL_USER
    4. MYSQL_PASSWORD
    5. MYSQL_ROOT_PASSWORD 
+
+- Search and update <b>proj.name</b> to your project name, in dock.d directory, use same as value of <b>COMPOSE_PROJECT_NAME</b> 
 
 - Copy your code in code folder within the root directory of repository
 
