@@ -1,16 +1,16 @@
 ## OpenDock Template
 
-The empty structure contains necessary folder and files to start building site based on project [opendock/o-dock](https://github.com/opendock/o-dock).
+The empty structure contains necessary folder and files to start building site based on project [opendocks/o-dock](https://github.com/opendocks/o-dock).
 
 ### How to use for project
 - Clone this repository using command
 ```bash
-    git clone git@github.com:opendock/o-template.git
+    git clone git@github.com:opendocks/o-template.git
 ```
 
-- Clone [opendock/o-dock](https://github.com/opendock/o-dock) repository within root of this repo using command
+- Clone [opendocks/o-dock](https://github.com/opendocks/o-dock) repository within root of this repo using command
 ```bash
-    git clone git@github.com:opendock/o-dock.git
+    git clone git@github.com:opendocks/o-dock.git
 ```
 
 - Update general .env variables
@@ -23,11 +23,11 @@ The empty structure contains necessary folder and files to start building site b
 - Update .env variables for Apache Service
    1. APACHE_VIRTUAL_HOST 
    
-   If you are using [opendock/o-proxy](https://github.com/opendock/o-proxy), this will add reverse proxy automatically, though you have to manually add host entries in OS host file.
+   If you are using [opendocks/o-proxy](https://github.com/opendocks/o-proxy), this will add reverse proxy automatically, though you have to manually add host entries in OS host file.
    
    If you need to add multiple host, provide comma separated values.
    
-   For more details Check [opendock/o-proxy](https://github.com/opendock/o-proxy)
+   For more details Check [opendocks/o-proxy](https://github.com/opendocks/o-proxy)
       
 - Update .env variables for PHP Service
    1. Enable of disable required PHP extentions for PHP service
