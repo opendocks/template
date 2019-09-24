@@ -1,16 +1,16 @@
-## Docker Site - Sample
+## OpenDock Template
 
-The empty structure contains necessary folder and files to start building site based on [Dock](https://github.com/smurtazakazmi/dock.d).
+The empty structure contains necessary folder and files to start building site based on project [opendock/o-dock](https://github.com/opendock/o-dock).
 
 ### How to use for project
 - Clone this repository using command
 ```bash
-    git clone git@github.com:smurtazakazmi/dock.s.git
+    git clone git@github.com:opendock/o-template.git
 ```
 
-- Clone dock.d repository within root of this repo using command
+- Clone [opendock/o-dock](https://github.com/opendock/o-dock) repository within root of this repo using command
 ```bash
-    git clone git@github.com:smurtazakazmi/dock.d.git
+    git clone git@github.com:opendock/o-dock.git
 ```
 
 - Update general .env variables
@@ -23,11 +23,11 @@ The empty structure contains necessary folder and files to start building site b
 - Update .env variables for Apache Service
    1. APACHE_VIRTUAL_HOST 
    
-   If you are using [Docker Proxy Network](https://github.com/smurtazakazmi/dock.p), this will add reverse proxy automatically, though you have to manually add host entries in OS host file.
+   If you are using [opendock/o-proxy](https://github.com/opendock/o-proxy), this will add reverse proxy automatically, though you have to manually add host entries in OS host file.
    
    If you need to add multiple host, provide comma separated values.
    
-   For more details Check [Docker Proxy Network](https://github.com/smurtazakazmi/dock.p)
+   For more details Check [opendock/o-proxy](https://github.com/opendock/o-proxy)
       
 - Update .env variables for PHP Service
    1. Enable of disable required PHP extentions for PHP service
@@ -40,7 +40,7 @@ The empty structure contains necessary folder and files to start building site b
    4. MYSQL_PASSWORD
    5. MYSQL_ROOT_PASSWORD 
 
-- Search and update <b>proj.name</b> to your project name, in dock.d directory, use same as value of <b>COMPOSE_PROJECT_NAME</b> 
+- Search and update <b>proj.name</b> to your project name, in o-dock directory, use same as value of <b>COMPOSE_PROJECT_NAME</b> 
 
 - Copy your code in code folder within the root directory of repository
 
