@@ -207,7 +207,7 @@ services:
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         - TZ=${MYSQL_TIMEZONE}
       volumes:
-        - ${APP_BASE_DIR}/${APP_CONFIG_DIR}/${APP_MYSQL_CONFIG_DIR}/my.cnf:/etc/mysql/my.cnf
+        - ${APP_BASE_DIR}/${APP_CONFIG_DIR}/${APP_MYSQL_CONFIG_DIR}:/etc/mysql/conf.d
         - ${APP_BASE_DIR}/${APP_DATA_DIR}:/var/lib/mysql
       ports:
         - "${MYSQL_PORT}:3306"
