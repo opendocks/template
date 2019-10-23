@@ -30,8 +30,8 @@ The empty structure contains necessary folder and files to start building site b
    For more details Check [opendocks/o-proxy](https://github.com/opendocks/o-proxy)
       
 - Update .env variables for PHP Service
-   1. Enable of disable required PHP extentions for PHP service
-   2. Enable of disable required PHP extentions for Workspace service
+   1. Enable or disable required PHP extentions for PHP service
+   2. Enable or disable required PHP extentions for Workspace service
 
 - Update .env for MySQL Service
    1. MYSQL_VERSION
