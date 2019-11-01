@@ -38,7 +38,7 @@ The empty structure contains necessary folder and files to start building site b
    2. MYSQL_DATABASE
    3. MYSQL_USER
    4. MYSQL_PASSWORD
-   5. MYSQL_ROOT_PASSWORD 
+   5. MYSQL_ROOT_PASSWORD  
 
 - Search and update <b>proj.name</b> to your project name, in o-dock directory, use same as value of <b>COMPOSE_PROJECT_NAME</b> 
 
@@ -90,4 +90,11 @@ docker-compose down {container-name}
 To enter container terminal window
 ```bash
 docker exec -it {container-name} bash
+```
+
+
+### Workspace Commands
+To Update all NPM packages in package.jon, (if npm-check-update is installed)
+```bash
+ncu -u
 ```
