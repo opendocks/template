@@ -80,6 +80,7 @@ services:
         - INSTALL_XSL=${WS_INSTALL_XSL}
         - INSTALL_YARN=${WS_INSTALL_YARN}
     container_name: ${COMPOSE_PROJECT_NAME}.ws
+    restart: always
     volumes:
       - ${APP_BASE_DIR}/${APP_CODE_DIR}:${APACHE_DOCUMENT_ROOT}${WS_DOCUMENT_ROOT_FLAG}
     ports:
@@ -99,6 +100,7 @@ services:
         - LINUX_DISTRO=${LINUX_DISTRO}
         - APACHE_CONFIG_PATH=${APACHE_CONFIG_PATH}
     container_name: ${COMPOSE_PROJECT_NAME}.apache
+    restart: always
     environment:
       VIRTUAL_HOST: ${APACHE_VIRTUAL_HOST}
       APACHE_CONFIG_PATH: ${APACHE_CONFIG_PATH}
@@ -107,7 +109,6 @@ services:
       - ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_APACHE_CONFIG_DIR}/sites/apache.conf:${APACHE_CONFIG_PATH}/apache.conf
       - ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_APACHE_CONFIG_DIR}/ssl:/etc/apache/ssl
       - ${APP_BASE_DIR}/${APP_BASE_LOG_DIR}/${APP_APACHE_LOG_DIR}:/var/log/apache2
-    restart: always
     expose:
       - ${APACHE_HTTP_PORT}
     ports:
@@ -123,6 +124,7 @@ services:
         - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
         - CHANGE_SOURCE=${NGINX_CHANGE_SOURCE}
     container_name: ${COMPOSE_PROJECT_NAME}.apache
+    restart: always
     volumes:
       - ${APP_BASE_DIR}/${APP_CODE_DIR}:${NGINX_DOCUMENT_ROOT}${NGINX_DOCUMENT_ROOT_FLAG}
       - ${APP_BASE_DIR}/${APP_BASE_LOG_DIR}/${APP_NGINX_LOG_DIR}:/var/log/nginx
@@ -175,6 +177,7 @@ services:
         - INSTALL_YAML=${PHP_INSTALL_YAML}
         - INSTALL_ZIP=${PHP_INSTALL_ZIP}
     container_name: ${COMPOSE_PROJECT_NAME}.php
+    restart: always
     volumes:
       - ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_PHP_CONFIG_DIR}/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
       #- ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_PHP_CONFIG_DIR}/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
@@ -197,6 +200,7 @@ services:
         - MYSQL_VERSION=${MYSQL_VERSION}
         - TZ=${MYSQL_TIMEZONE}
     container_name: ${COMPOSE_PROJECT_NAME}.db
+    restart: always
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
