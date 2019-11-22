@@ -1,23 +1,16 @@
 version: '3'
 
-volumes:
-  mysql:
-    driver: ${VOLUMES_DRIVER}
-
 networks:
   default:
     external:
       name: ${NETWORK_NAME}
-# frontend:
-#   driver: ${NETWORKS_DRIVER}
-# backend:
-#   driver: ${NETWORKS_DRIVER}
 
 services:
 
   # Work Space
   #---------------------------------------------------------
   workspace:
+    image: ${COMPOSE_IMAGES_NAMESPACE}/workspace
     build:
       context: ${DOCKER_FILES_DIR}/workspace
       args:
@@ -82,7 +75,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}.ws
     restart: always
     volumes:
-      - ${APP_BASE_DIR}/${APP_CODE_DIR}:${APACHE_DOCUMENT_ROOT}${WS_DOCUMENT_ROOT_FLAG}
+      - ${APP_BASE_DIR}/${APP_CODE_DIR}:${WS_DOCUMENT_ROOT}${WS_DOCUMENT_ROOT_FLAG}
     ports:
       - "${WS_SSH_PORT}:22"
     tty: true
@@ -93,6 +86,7 @@ services:
   # Apache Server
   #---------------------------------------------------------
   apache:
+    image: ${COMPOSE_IMAGES_NAMESPACE}/apache
     build:
       context: ${DOCKER_FILES_DIR}/apache
       args:
@@ -109,19 +103,18 @@ services:
       - ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_APACHE_CONFIG_DIR}/sites/apache.conf:${APACHE_CONFIG_PATH}/apache.conf
       - ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_APACHE_CONFIG_DIR}/ssl:/etc/apache/ssl
       - ${APP_BASE_DIR}/${APP_BASE_LOG_DIR}/${APP_APACHE_LOG_DIR}:/var/log/apache2
-    expose:
-      - ${APACHE_HTTP_PORT}
     ports:
       - "${APACHE_HTTP_PORT}:80"
 
   # NGINX Server
   #---------------------------------------------------------
   nginx:
+    image: ${COMPOSE_IMAGES_NAMESPACE}/nginx
     build:
       context: ${DOCKER_FILES_DIR}/nginx
       args:
-        - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
-        - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+        - UPSTREAM_CONTAINER=${NGINX_UPSTREAM_CONTAINER}
+        - UPSTREAM_PORT=${NGINX_UPSTREAM_PORT}
         - CHANGE_SOURCE=${NGINX_CHANGE_SOURCE}
     container_name: ${COMPOSE_PROJECT_NAME}.apache
     restart: always
@@ -137,6 +130,7 @@ services:
   # PHP-FPM
   #---------------------------------------------------------
   php:
+    image: ${COMPOSE_IMAGES_NAMESPACE}/php
     build:
       context: ${DOCKER_FILES_DIR}/php-fpm
       args:
@@ -179,27 +173,46 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}.php
     restart: always
     volumes:
-      - ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_PHP_CONFIG_DIR}/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
-      #- ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_PHP_CONFIG_DIR}/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-      #- ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_PHP_CONFIG_DIR}/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - ${APP_BASE_DIR}/${APP_CODE_DIR}:${PHP_DOCUMENT_ROOT}
-    expose:
-      - "9000"
+      - ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_PHP_CONFIG_DIR}/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     environment:
       - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
       - FAKETIME=${PHP_FAKETIME}
 
+  # Node
+  #---------------------------------------------------------
+  node:
+    image: ${COMPOSE_IMAGES_NAMESPACE}/node
+    build:
+      context: ${DOCKER_FILES_DIR}/node
+      args:
+        - NODE_VERSION=${NODE_VERSION}
+        - YARN_VERSION=${NODE_YARN_VERSION}
+        - INSTALL_YARN=${NODE_INSTALL_YARN}
+        - INSTALL_PG_CLIENT=${NODE_PG_CLIENT}
+        - INSTALL_INTL=${NODE_INSTALL_INTL}
+        - INSTALL_GHOSTSCRIPT=${NODE_INSTALL_GHOSTSCRIPT}
+        - INSTALL_IMAGE_OPTIMIZERS=${NODE_INSTALL_IMAGE_OPTIMIZERS}
+        - INSTALL_IMAGEMAGICK=${NODE_INSTALL_IMAGEMAGICK}
+        - NPM_START_SCRIPT=${NODE_NPM_START_SCRIPT}
+        - PUPPETEER_SUPPORT=${NODE_PUPPETEER_SUPPORT}
+    volumes:
+      - ${APP_BASE_DIR}/${APP_CODE_DIR}:${NODE_DOCUMENT_ROOT}
+    depends_on:
+      - workspace
+
   # MySQL
   #---------------------------------------------------------
   mysql:
+    image: ${COMPOSE_IMAGES_NAMESPACE}/mysql
     build:
       context: ${DOCKER_FILES_DIR}/mysql
       args:
         - MYSQL_VERSION=${MYSQL_VERSION}
         - TZ=${MYSQL_TIMEZONE}
-    container_name: ${COMPOSE_PROJECT_NAME}.db
+    container_name: ${COMPOSE_PROJECT_NAME}.mysql
     restart: always
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
@@ -212,3 +225,32 @@ services:
       - ${APP_BASE_DIR}/${APP_DATA_DIR}:/var/lib/mysql
     ports:
       - "${MYSQL_PORT}:3306"
+
+  # MongoDB
+  #---------------------------------------------------------
+  mongo:
+    image: ${COMPOSE_IMAGES_NAMESPACE}/mongo
+    build:
+      context: ${DOCKER_FILES_DIR}/mongo
+    ports:
+      - "${MONGODB_PORT}:27017"
+    volumes:
+      - ${APP_BASE_DIR}/${APP_DATA_DIR}:/data/db
+
+  # MongoWebUI
+  #---------------------------------------------------------
+  mongo-webui:
+    image: ${COMPOSE_IMAGES_NAMESPACE}/mongo-webui
+    build:
+      context: ${DOCKER_FILES_DIR}/mongo-webui
+    restart: always
+    environment:
+      - ROOT_URL=${MONGO_WEBUI_ROOT_URL}
+      - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
+      - INSTALL_MONGO=${MONGO_WEBUI_INSTALL_MONGO}
+    volumes:
+      - ${APP_BASE_DIR}/${APP_DATA_DIR}:/data/db
+    ports:
+      - "${MONGO_WEBUI_PORT}:3000"
+    depends_on:
+      - mongo
