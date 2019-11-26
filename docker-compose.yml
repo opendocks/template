@@ -121,6 +121,8 @@ services:
         - CHANGE_SOURCE=${NGINX_CHANGE_SOURCE}
     container_name: ${COMPOSE_PROJECT_NAME}.apache
     restart: always
+    environment:
+      VIRTUAL_HOST: ${NGINX_VIRTUAL_HOST}
     volumes:
       - ${APP_BASE_DIR}/${APP_CODE_DIR}:${NGINX_DOCUMENT_ROOT}${NGINX_DOCUMENT_ROOT_FLAG}
       - ${APP_BASE_DIR}/${APP_BASE_LOG_DIR}/${APP_NGINX_LOG_DIR}:/var/log/nginx
@@ -204,7 +206,7 @@ services:
         - PUPPETEER_SUPPORT=${NODE_PUPPETEER_SUPPORT}
     container_name: ${COMPOSE_PROJECT_NAME}.node
     environment:
-      VIRTUAL_HOST: ${APACHE_VIRTUAL_HOST}
+      VIRTUAL_HOST: ${NODE_VIRTUAL_HOST}
     volumes:
       - ${APP_BASE_DIR}/${APP_CODE_DIR}:${NODE_DOCUMENT_ROOT}
     depends_on:
@@ -222,12 +224,12 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}.mysql
     restart: always
     environment:
+      - VIRTUAL_HOST=${MYSQL_VIRTUAL_HOST}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - TZ=${MYSQL_TIMEZONE}
-      - VIRTUAL_HOST=${MYSQL_VIRTUAL_HOST}
     volumes:
       - ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_MYSQL_CONFIG_DIR}:/etc/mysql/conf.d
       - ${APP_BASE_DIR}/${APP_DATA_DIR}:/var/lib/mysql
@@ -240,8 +242,8 @@ services:
     image: 'mongo'
     container_name: ${COMPOSE_PROJECT_NAME}.mongo
     environment:
-      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
       - VIRTUAL_HOST=${MONGO_VIRTUAL_HOST}
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
       #- MONGO_INITDB_ROOT_USERNAME=${MONGODB_ROOT_USERNAME}
       #- MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
     ports:
@@ -260,10 +262,10 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}.mongo.web
     restart: always
     environment:
+      - VIRTUAL_HOST=${MONGO_WEBUI_VIRTUAL_HOST}
       - ROOT_URL=${MONGO_WEBUI_ROOT_URL}
       - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
       - INSTALL_MONGO=${MONGO_WEBUI_INSTALL_MONGO}
-      - VIRTUAL_HOST=${MONGO_WEBUI_VIRTUAL_HOST}
     volumes:
       - mongodata:/data/db
       #- ${APP_BASE_DIR}/${APP_DATA_DIR}/mongoweb:/data/db
