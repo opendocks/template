@@ -5,6 +5,9 @@ networks:
     external:
       name: ${NETWORK_NAME}
 
+volumes:
+  mongodata:
+
 services:
 
   # Work Space
@@ -191,6 +194,7 @@ services:
         - NODE_VERSION=${NODE_VERSION}
         - YARN_VERSION=${NODE_YARN_VERSION}
         - INSTALL_YARN=${NODE_INSTALL_YARN}
+        - INSTALL_NODEMON=${NODE_INSTALL_NODEMON}
         - INSTALL_PG_CLIENT=${NODE_PG_CLIENT}
         - INSTALL_INTL=${NODE_INSTALL_INTL}
         - INSTALL_GHOSTSCRIPT=${NODE_INSTALL_GHOSTSCRIPT}
@@ -198,6 +202,9 @@ services:
         - INSTALL_IMAGEMAGICK=${NODE_INSTALL_IMAGEMAGICK}
         - NPM_START_SCRIPT=${NODE_NPM_START_SCRIPT}
         - PUPPETEER_SUPPORT=${NODE_PUPPETEER_SUPPORT}
+    container_name: ${COMPOSE_PROJECT_NAME}.node
+    environment:
+      VIRTUAL_HOST: ${APACHE_VIRTUAL_HOST}
     volumes:
       - ${APP_BASE_DIR}/${APP_CODE_DIR}:${NODE_DOCUMENT_ROOT}
     depends_on:
@@ -220,6 +227,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - TZ=${MYSQL_TIMEZONE}
+      - VIRTUAL_HOST=${MYSQL_VIRTUAL_HOST}
     volumes:
       - ${APP_BASE_DIR}/${APP_BASE_CONFIG_DIR}/${APP_MYSQL_CONFIG_DIR}:/etc/mysql/conf.d
       - ${APP_BASE_DIR}/${APP_DATA_DIR}:/var/lib/mysql
@@ -229,13 +237,19 @@ services:
   # MongoDB
   #---------------------------------------------------------
   mongo:
-    image: ${COMPOSE_IMAGES_NAMESPACE}/mongo
-    build:
-      context: ${DOCKER_FILES_DIR}/mongo
+    image: 'mongo'
+    container_name: ${COMPOSE_PROJECT_NAME}.mongo
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
+      - VIRTUAL_HOST=${MONGO_VIRTUAL_HOST}
+      #- MONGO_INITDB_ROOT_USERNAME=${MONGODB_ROOT_USERNAME}
+      #- MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
     ports:
       - "${MONGODB_PORT}:27017"
     volumes:
-      - ${APP_BASE_DIR}/${APP_DATA_DIR}:/data/db
+      - mongodata:/data/db
+      #- ${APP_BASE_DIR}/${APP_DATA_DIR}/mongo:/data/db
+      #- ${APP_BASE_DIR}/${APP_DATA_DIR}/mongo-init/001_users.js:/docker-entrypoint-initdb.d/001_users.js:ro
 
   # MongoWebUI
   #---------------------------------------------------------
@@ -243,13 +257,16 @@ services:
     image: ${COMPOSE_IMAGES_NAMESPACE}/mongo-webui
     build:
       context: ${DOCKER_FILES_DIR}/mongo-webui
+    container_name: ${COMPOSE_PROJECT_NAME}.mongo.web
     restart: always
     environment:
       - ROOT_URL=${MONGO_WEBUI_ROOT_URL}
       - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
       - INSTALL_MONGO=${MONGO_WEBUI_INSTALL_MONGO}
+      - VIRTUAL_HOST=${MONGO_WEBUI_VIRTUAL_HOST}
     volumes:
-      - ${APP_BASE_DIR}/${APP_DATA_DIR}:/data/db
+      - mongodata:/data/db
+      #- ${APP_BASE_DIR}/${APP_DATA_DIR}/mongoweb:/data/db
     ports:
       - "${MONGO_WEBUI_PORT}:3000"
     depends_on:
