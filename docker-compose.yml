@@ -119,7 +119,7 @@ services:
         - UPSTREAM_CONTAINER=${NGINX_UPSTREAM_CONTAINER}
         - UPSTREAM_PORT=${NGINX_UPSTREAM_PORT}
         - CHANGE_SOURCE=${NGINX_CHANGE_SOURCE}
-    container_name: ${COMPOSE_PROJECT_NAME}.apache
+    container_name: ${COMPOSE_PROJECT_NAME}.nginx
     restart: always
     environment:
       VIRTUAL_HOST: ${NGINX_VIRTUAL_HOST}
