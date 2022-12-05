@@ -54,9 +54,8 @@ OR
    4. MYSQL_PASSWORD
    5. MYSQL_ROOT_PASSWORD  
 
-### Update docks/conf/appache/apache.conf
-- Check comment in file `docks/conf/apache/apache.conf`
-
+### Update conf/sites/appache/apache.conf
+- Check comment in file `docks/conf/apache/sites/apache.conf`
 
 
 ### Useful Commands
