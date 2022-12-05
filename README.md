@@ -14,11 +14,11 @@ OR
 
 - Clone [opendocks/docks](https://github.com/opendocks/docks) repository within root of this repo using command
 ```bash
-    git clone git@github.com:opendocks/dock.git
+    git clone git@github.com:opendocks/docks.git
 ```
 OR 
 ```bash
-    git clone https://github.com/opendocks/dock.git
+    git clone https://github.com/opendocks/docks.git
 ```
 
 ### Create required directories
