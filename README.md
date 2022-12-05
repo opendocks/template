@@ -1,50 +1,61 @@
 ## OpenDock Template
 
-The empty structure contains necessary folder and files to start building site based on project [opendocks/o-dock](https://github.com/opendocks/o-dock).
+The empty structure contains necessary folder and files to start building site based on project [opendocks/docks](https://github.com/opendocks/docks).
 
 ### How to use for project
-- Clone this repository using command
+- Clone [opendocks/template](https://github.com/opendocks/docks) i.e. [this](https://github.com/opendocks/docks) repository using command
 ```bash
-    git clone git@github.com:opendocks/o-template.git
+    git clone git@github.com:opendocks/template.git
+```
+OR 
+```bash
+    git clone https://github.com/opendocks/template.git
 ```
 
-- Clone [opendocks/o-dock](https://github.com/opendocks/o-dock) repository within root of this repo using command
+- Clone [opendocks/docks](https://github.com/opendocks/docks) repository within root of this repo using command
 ```bash
-    git clone git@github.com:opendocks/o-dock.git
+    git clone git@github.com:opendocks/dock.git
+```
+OR 
+```bash
+    git clone https://github.com/opendocks/dock.git
 ```
 
-- Update general .env variables
-   1. APP_BASE_DIR
-   2. COMPOSE_PROJECT_NAME
-   3. DOCKER_HOST_IP (IP of host machine)
-   4. PHP_IDE_CONFIG
-   5. PHP_VERSION (Use any value from 7.3, 7.2, 7.1, 7.0, 5.6)
+### Create required directories
+- Create code and data directories in root if not already exists
+- Copy your code in code folder within the root directory or any sub directory
 
-- Update .env variables for Apache Service
+### Update general .env variables
+   1. APP_BASE_DIR (See comments in file)
+   2. Search {{PROJECT-IDENTIFIER}} & {{TLD}} and replace with names you preffer, 
+      > NOTE It is suggested to use `ts` to replace `{{TLD}}` for local development
+   3. PHP_VERSION (Use any value from 8.1, 8.0,7.3, 7.2, 7.1, 7.0, 5.6)
+   4. DOCKER_HOST_IP (IP of host machine) `(optional)`
+   5. PHP_IDE_CONFIG `(optional)`
+
+### Update .env variables for Apache Service
    1. APACHE_VIRTUAL_HOST 
    
-   If you are using [opendocks/o-proxy](https://github.com/opendocks/o-proxy), this will add reverse proxy automatically, though you have to manually add host entries in OS host file.
+   If you are using [opendocks/proxy](https://github.com/opendocks/proxy), this will add reverse proxy automatically, though you have to manually add host entries in OS host file.
+   > eg. if you add `demo.ts` as value for `APACHE_VIRTUAL_HOST` it is required to add host entry pointing `127.0.0.1 demo.ts`
    
    If you need to add multiple host, provide comma separated values.
    
-   For more details Check [opendocks/o-proxy](https://github.com/opendocks/o-proxy)
+   > For more details Check [opendocks/proxy](https://github.com/opendocks/proxy)
       
-- Update .env variables for PHP Service
+### Update .env variables for PHP Service
    1. Enable or disable required PHP extentions for PHP service
    2. Enable or disable required PHP extentions for Workspace service
 
-- Update .env for MySQL Service
+### Update .env for MySQL Service
    1. MYSQL_VERSION
    2. MYSQL_DATABASE
    3. MYSQL_USER
    4. MYSQL_PASSWORD
    5. MYSQL_ROOT_PASSWORD  
 
-- Search and update <b>proj.name</b> to your project name, in o-dock directory, use same as value of <b>COMPOSE_PROJECT_NAME</b> 
-
-- Copy your code in code folder within the root directory of repository
-
-- Create data directory in the root of this folder, it will server of MySQL data as docker volume
+### Update docks/conf/appache/apache.conf
+- Check comment in file `docks/conf/apache/apache.conf`
 
 
 
