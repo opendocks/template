@@ -33,15 +33,30 @@ OR
    4. DOCKER_HOST_IP (IP of host machine) `(optional)`
    5. PHP_IDE_CONFIG `(optional)`
 
+### Setup nginx reverse proxy (if not already)
+   - Clone this `opendocks/proxy` repository using command
+   ```bash
+      git clone git@github.com:opendocks/proxy.git
+   ```
+   OR 
+   ```bash
+      git clone https://github.com/opendocks/proxy.git
+   ```
+   - Create docker network using command
+   ```bash
+      docker network create net1-nginx-proxy
+   ```
+   - Run service
+   ```bash
+      docker-compose up
+   ```
+   - Above will setup nginx reverse proxy server, using IP 127.0.0.1 & default ports 80, 443 
+
 ### Update .env variables for Apache Service
-   1. APACHE_VIRTUAL_HOST 
-   
-   If you are using [opendocks/proxy](https://github.com/opendocks/proxy), this will add reverse proxy automatically, though you have to manually add host entries in OS host file.
-   > eg. if you add `demo.ts` as value for `APACHE_VIRTUAL_HOST` it is required to add host entry pointing `127.0.0.1 demo.ts`
-   
-   If you need to add multiple host, provide comma separated values.
-   
-   > For more details Check [opendocks/proxy](https://github.com/opendocks/proxy)
+   1. APACHE_VIRTUAL_HOST defined in .env file contains comma separated list of domains a& sub-domains, and is used by reverse proxy server service
+   2. Reverse proxy service will read this value will setup reverse proxy for provided host names
+   3. Update (Windows,linux,macOS) host file to add hostname entries used in APACHE_VIRTUAL_HOST pointing reverse proxy servic (server)
+   4. Reverse proxy will automatically, sends all requests to desired container
       
 ### Update .env variables for PHP Service
    1. Enable or disable required PHP extentions for PHP service
@@ -55,7 +70,7 @@ OR
    5. MYSQL_ROOT_PASSWORD  
 
 ### Update conf/sites/appache/apache.conf
-- Check comment in file `docks/conf/apache/sites/apache.conf`
+- Check comment in file `conf/sites/appache/apache.conf`
 
 
 ### Useful Commands

@@ -75,7 +75,7 @@ services:
         - INSTALL_XDEBUG=${WS_INSTALL_XDEBUG}
         - INSTALL_XSL=${WS_INSTALL_XSL}
         - INSTALL_YARN=${WS_INSTALL_YARN}
-    container_name: ${COMPOSE_PROJECT_NAME}.ws
+    container_name: ${CONTAINERS_NAMESPACE}.ws
     restart: always
     volumes:
       - ${APP_BASE_DIR}/${APP_CODE_DIR}:${WS_DOCUMENT_ROOT}${WS_DOCUMENT_ROOT_FLAG}
@@ -96,7 +96,7 @@ services:
         - HTTPD_VERSION=${HTTPD_VERSION}
         - LINUX_DISTRO=${LINUX_DISTRO}
         - APACHE_CONFIG_PATH=${APACHE_CONFIG_PATH}
-    container_name: ${COMPOSE_PROJECT_NAME}.apache
+    container_name: ${CONTAINERS_NAMESPACE}.apache
     restart: always
     environment:
       VIRTUAL_HOST: ${APACHE_VIRTUAL_HOST}
@@ -119,7 +119,7 @@ services:
         - UPSTREAM_CONTAINER=${NGINX_UPSTREAM_CONTAINER}
         - UPSTREAM_PORT=${NGINX_UPSTREAM_PORT}
         - CHANGE_SOURCE=${NGINX_CHANGE_SOURCE}
-    container_name: ${COMPOSE_PROJECT_NAME}.nginx
+    container_name: ${CONTAINERS_NAMESPACE}.nginx
     restart: always
     environment:
       VIRTUAL_HOST: ${NGINX_VIRTUAL_HOST}
@@ -175,7 +175,7 @@ services:
         - INSTALL_XSL=${PHP_INSTALL_XSL}
         - INSTALL_YAML=${PHP_INSTALL_YAML}
         - INSTALL_ZIP=${PHP_INSTALL_ZIP}
-    container_name: ${COMPOSE_PROJECT_NAME}.php
+    container_name: ${CONTAINERS_NAMESPACE}.php
     restart: always
     volumes:
       - ${APP_BASE_DIR}/${APP_CODE_DIR}:${PHP_DOCUMENT_ROOT}
@@ -204,7 +204,7 @@ services:
         - INSTALL_IMAGEMAGICK=${NODE_INSTALL_IMAGEMAGICK}
         - NPM_START_SCRIPT=${NODE_NPM_START_SCRIPT}
         - PUPPETEER_SUPPORT=${NODE_PUPPETEER_SUPPORT}
-    container_name: ${COMPOSE_PROJECT_NAME}.node
+    container_name: ${CONTAINERS_NAMESPACE}.node
     environment:
       VIRTUAL_HOST: ${NODE_VIRTUAL_HOST}
     volumes:
@@ -221,7 +221,7 @@ services:
       args:
         - MYSQL_VERSION=${MYSQL_VERSION}
         - TZ=${MYSQL_TIMEZONE}
-    container_name: ${COMPOSE_PROJECT_NAME}.mysql
+    container_name: ${CONTAINERS_NAMESPACE}.mysql
     restart: always
     environment:
       - VIRTUAL_HOST=${MYSQL_VIRTUAL_HOST}
@@ -240,7 +240,7 @@ services:
   #---------------------------------------------------------
   mongo:
     image: 'mongo'
-    container_name: ${COMPOSE_PROJECT_NAME}.mongo
+    container_name: ${CONTAINERS_NAMESPACE}.mongo
     environment:
       - VIRTUAL_HOST=${MONGO_VIRTUAL_HOST}
       - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
@@ -259,7 +259,7 @@ services:
     image: ${COMPOSE_IMAGES_NAMESPACE}/mongo-webui
     build:
       context: ${DOCKER_FILES_DIR}/mongo-webui
-    container_name: ${COMPOSE_PROJECT_NAME}.mongo.web
+    container_name: ${CONTAINERS_NAMESPACE}.mongo.web
     restart: always
     environment:
       - VIRTUAL_HOST=${MONGO_WEBUI_VIRTUAL_HOST}
